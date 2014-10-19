@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Have fun with Backbone.js</title>
+</head>
+<body>
+
+<script type="text/template" id="search_template">
+  <label>Search</label>
+  <input type="text" id="search_input" />
+  <input type="button" id="search_button" value="Search" />
+</script>
+
+<div id="awesome-container"></div>
+
+<script src="http://cdn.staticfile.org/jquery/1.11.1-rc2/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="http://cdn.staticfile.org/backbone.js/1.1.2/backbone-min.js"></script>
+<script>
+var AwesomeView = Backbone.View.extend({
+  initialize: function() {
+    this.render();
+  },
+  render: function() {
+    var template = _.template( $('#search_template').text() );
+    this.$el.html(template);
+  },
+  events: {
+    'focus input': 'doAlert'
+  },
+  doAlert: function() {
+    alert('this guy isn\'t actually working :)');
+  }
+});
+
+var awesomeView = new AwesomeView({
+  el: $('#awesome-container')
+});
+</script>
+</body>
+</html>

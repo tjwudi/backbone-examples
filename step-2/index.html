@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Have fun with Backbone.js</title>
+</head>
+<body>
+
+<script src="http://cdn.staticfile.org/jquery/1.11.1-rc2/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="http://cdn.staticfile.org/backbone.js/1.1.2/backbone-min.js"></script>
+<script>
+var Person = Backbone.Model.extend({
+  urlRoot: '/users',
+  defaults: {
+    id: 0,
+    username: '-',
+    password: '-'
+  }
+});
+
+var p = new Person({id: 1});
+p.fetch();
+</script>
+</body>
+</html>

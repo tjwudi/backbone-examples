@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Have fun with Backbone.js</title>
+</head>
+<body>
+
+<script src="http://cdn.staticfile.org/jquery/1.11.1-rc2/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="http://cdn.staticfile.org/backbone.js/1.1.2/backbone-min.js"></script>
+<script>
+var Person = Backbone.Model.extend({
+  initialize: function() {
+    this.on('change:firstName', function(model) {
+      console.log('The model name has changed.');
+    });
+  },
+  defaults: {
+    firstName: '-',
+    lastName: '-',
+    age: NaN
+  },
+  setFirstName: function(newFirstName) {
+    this.set({
+      firstName: newFirstName
+    });
+  }
+});
+
+var person = new Person;
+person.set({
+  firstName: 'John',
+  lastName: 'Wu',
+  age: 20
+});
+person.setFirstName('Alice');
+console.log(person.get('firstName'));
+console.log(person.get('lastName'));
+console.log(person.get('age'));
+</script>
+</body>
+</html>
