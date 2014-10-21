@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Have fun with Backbone.js</title>
+</head>
+<body>
+
+
+<script id="contactTemplate" type="text/template">
+    <img src="<%= avatar_url %>" alt="<%= name %>" />
+    <h1><%= name %><span><%= type %></span></h1>
+    <div><%= address %></div>
+    <dl>
+        <dt>Tel:</dt><dd><%= tel %></dd>
+        <dt>Email:</dt><dd><a href="mailto:<%= email %>"><%= email %></a></dd>
+    </dl>
+</script>
+
+<div id="directory">
+
+</div>
+
+
+<script src="http://cdn.staticfile.org/jquery/1.11.1-rc2/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/underscore.js/1.7.0/underscore-min.js"></script>
+<script src="http://cdn.staticfile.org/backbone.js/1.1.2/backbone-min.js"></script>
+<script>
+
+$(function() {
+  var contacts = [
+        { name: "Contact 1", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" },
+        { name: "Contact 2", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" },
+        { name: "Contact 3", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "friend" },
+        { name: "Contact 4", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "colleague" },
+        { name: "Contact 5", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" },
+        { name: "Contact 6", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "colleague" },
+        { name: "Contact 7", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "friend" },
+        { name: "Contact 8", address: "1, a street, a town, a city, AB12 3CD", tel: "0123456789", email: "anemail@me.com", type: "family" }
+    ];
+
+  var Contact = Backbone.Model.extend({
+    defaults: {
+      'avatar_url': 'http://placehold.it/350x150'
+    }
+  });
+
+  var Directory = Backbone.Collection.extend({
+    model: Contact
+  });
+
+  var ContactView = Backbone.View.extend({
+    tagName: 'article',
+    className: 'contact-container',
+    template: $("#contactTemplate").html(),
+
+    render: function() {
+      var tmpl = _.template(this.template);
+      this.$el.html(tmpl(this.model.toJSON()));
+      return this;
+    }
+  });
+
+  var DirectoryView = Backbone.View.extend({
+    el: '#directory',
+
+    initialize: function() {
+      this.collection = new Directory(contacts);
+      this.render();
+    },
+    render: function() {
+      var that = this;
+      _.each(this.collection.models, function(item) {
+        that.renderSingle(item);
+      });
+    },
+    renderSingle: function(item) {
+      view = new ContactView({ model: item });
+      this.$el.append(view.render().$el);
+    }
+  });
+
+  new DirectoryView();
+});
+
+</script>
+</body>
+</html>
